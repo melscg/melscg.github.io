@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title> Solo dale click </title>
+  <meta name="description" content="Una página especial para pedirte que seas mi novio." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0f19;
+      --card:#111827;
+      --muted:#cbd5e1;
+      --text:#fffafc;
+      --brand:#60a5fa;   /* azul */
+      --accent:#93c5fd;  /* celeste */
+      --ok:#34d399;
+      --radius:20px;
+      --shadow:0 10px 35px rgba(0,0,0,.35);
+      --maxw:980px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial;
+      color:var(--text); background:
+        radial-gradient(900px 500px at 10% -10%, rgba(147,197,253,.12), transparent),
+        radial-gradient(800px 400px at 110% 10%, rgba(96,165,250,.12), transparent),
+        var(--bg);
+      line-height:1.65; letter-spacing:.1px;
+    }
+    a{color:#bfdbfe; text-decoration:none}
+    .container{max-width:var(--maxw); margin:0 auto; padding:32px 20px 100px}
+    .badge{display:inline-flex; gap:8px; align-items:center; font-weight:700; padding:6px 12px; border-radius:999px; background:rgba(96,165,250,.18); color:#dbeafe; border:1px solid rgba(96,165,250,.35)}
+    .badge .dot{width:8px; height:8px; border-radius:50%; background:var(--brand)}
+    header.hero{display:grid; grid-template-columns:1.2fr .8fr; gap:28px; align-items:center; margin:24px 0 36px}
+    h1{
+      font-family:"Great Vibes", cursive; font-size:56px; line-height:1.05; margin:8px 0 10px; letter-spacing:.5px;
+      text-shadow:0 8px 40px rgba(96,165,250,.25);
+    }
+    .subtitle{color:var(--muted); font-size:18px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid rgba(148,163,184,.18); border-radius:var(--radius); box-shadow:var(--shadow)}
+    .card.pad{padding:22px}
+    .grid{display:grid; gap:18px}
+    .grid.cols-2{grid-template-columns:repeat(2,1fr)}
+    section{margin:44px 0}
+    section h2{font-family:"Poppins"26px; margin:0 0 14px}
+    .muted{color:var(--muted)}
+    .list{display:grid; gap:10px}
+    .item{display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:flex-start}
+    .heart{width:22px; height:22px; border-radius:8px; background:rgba(96,165,250,.18); color:#dbeafe; display:grid; place-items:center; border:1px solid rgba(96,165,250,.35); font-weight:900}
+    .timeline{position:relative; padding-left:22px}
+    .timeline:before{content:""; position:absolute; left:9px; top:4px; bottom:4px; width:2px; background:linear-gradient(var(--brand), transparent)}
+    .step{position:relative; margin:10px 0 16px}
+    .step::marker{content:none}
+    .dot{position:absolute; left:-22px; top:4px; width:12px; height:12px; border-radius:50%; background:var(--brand); box-shadow:0 0 0 4px rgba(96,165,250,.15)}
+    .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+    .gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px;
+      display: block;
+    }
+    .cta{display:flex; gap:12px; flex-wrap:wrap}
+    .btn{display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:14px; border:1px solid rgba(148,163,184,.25); background:#0b1220; color:var(--text); font-weight:700}
+    .btn.primary{background:linear-gradient(180deg, rgba(96,165,250,.28), rgba(96,165,250,.16)); border-color:rgba(96,165,250,.45)}
+    .btn.ghost{background:transparent}
+    footer{margin-top:60px; padding:30px 0 60px; color:var(--muted); text-align:center}
+    .music-toggle{position:fixed; right:16px; bottom:16px; z-index:50; display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:999px; border:1px solid rgba(148,163,184,.25); background:#0b1220; box-shadow:var(--shadow); cursor:pointer;}
+    .music-toggle small{color:#bfdbfe}
+    .music-tip{position:fixed; left:50%; transform:translateX(-50%); bottom:86px; background:#0b1220; border:1px solid rgba(148,163,184,.25); padding:8px 12px; border-radius:10px; display:none}
+    @media (max-width:980px){
+      header.hero{grid-template-columns:1fr}
+      .grid.cols-2{grid-template-columns:1fr}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+    }
+    @media print{
+      body{background:white; color:#111}
+      a{color:#111}
+      .no-print{display:none !important}
+    }
+  </style>
+</head>
+<body>
+  
+  <audio id="bg-music" src="gone gone.mp3" loop preload="auto"></audio>
+
+  <div class="container">
+    <header class="hero">
+      <div>
+        <span class="badge"><span class="dot"></span>Esta es parte de la sorpresa</span>
+        <h1 id="title">José Miguel Bravo Morales</h1>
+        <p class="subtitle">De <b id="from">tarzan pecoso</b> para <b id="to">Mi fantasmin</b> — <span id="date">[Fecha especial]</span></p>
+        <div class="cta" style="margin-top:16px">
+          <a class="btn primary" href="#aceptacion">Decídelo conmigo</a>
+          <a class="btn ghost" href="#nuestra-historia">Nuestra historia</a>
+        </div>
+      </div>
+      <div class="card pad">
+        <h3 style="margin-top:0">Lo que siento por ti 💙</h3>
+        <p>Si tú supieras cuánto te amo y lo enamorada que estoy de ti, entenderías muchas cosas. Me gustaría decirte de la manera más linda algo especial para mí.</p>
+        <ul class="list" style="margin:0">
+          <li class="item"><span class="heart">💙</span><span>Admiro la forma en que enfrentas la vida y cómo me haces sentir en casa.</span></li>
+          <li class="item"><span class="heart">💙</span><span>Quiero apoyarte, reír contigo y compartir lo simple y lo grande.</span></li>
+          <li class="item"><span class="heart">💙</span><span>Me encantaría que este sea el comienzo de algo sincero y hermoso.</span></li>
+        </ul>
+      </div>
+    </header>
+
+    <section id="nuestra-historia" class="grid cols-2">
+      <div class="card pad">
+        <h2>Nuestra historia</h2>
+        <p class="muted">Pequeños grandes momentos.</p>
+        <ol class="timeline">
+          <li class="step"><span class="dot"></span><b>Cuando te conocí</b>: Te conocí de la manera más random, pues tal vez como muchas te pedí tu Facebook, pero en sí me escondí por pena. Así fue la primera interacción contigo.</li>
+          <li class="step"><span class="dot"></span><b>La primera charla</b>: Cómo olvidar cuando la primera vez que decidimos salir a platicar no fue afuera de mi casa, pero fue una plática chistosa donde me ponías roja, pero me hacías reír mucho.</li>
+          <li class="step"><span class="dot"></span><b>El momento en que supe</b>: En algún momento sentí que tú y yo no nos volveríamos a reencontrar o que simplemente no llegaríamos a una relación, pero la vida de alguna manera me dijo “sí, ten fe y confía”. Mírame ahora, feliz con mi persona favorita en el mundo.</li>
+        </ol>
+      </div>
+
+      <div class="card pad">
+        <h2>Nuestras fotos</h2>
+        <div class="gallery">
+          <div><img src="img/foto pag1.jpg" alt="Foto juntos 1"></div>
+          <div><img src="img/foto pag2.jpg" alt="Foto juntos 2"></div>
+          <div><img src="img/foto pag3.jpg" alt="Foto juntos 3"></div>
+          <div><img src="img/foto pag4.jpg" alt="Foto juntos 3"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="razones" class="grid cols-2">
+      <div class="card pad">
+        <h2>Razones para decir que sí</h2>
+        <ul class="list">
+          <li class="item"><span class="heart">💙</span><span>Prometo <b>respeto</b>, <b>confianza</b> y <b>honestidad</b> siempre.</span></li>
+          <li class="item"><span class="heart">💙</span><span>Quiero ser tu compañera en cada paso y en cada meta.</span></li>
+          <li class="item"><span class="heart">💙</span><span>Haré espacio para tus sueños y celebraré cada logro contigo.</span></li>
+        </ul>
+      </div>
+      <div class="card pad">
+        <h2>Dentro de la relación</h2>
+        <ol class="timeline">
+          <li class="step"><span class="dot"></span><b>Toma en cuenta</b>: esta relación promote mucho amor, compresion y paz.</li>
+          <li class="step"><span class="dot"></span><b>Algo que siempre haremos</b>: Apoyarnos mutuamente, simplemnete seremos un equipo en esta historia llamda vida</li>
+          <li class="step"><span class="dot"></span><b>Un sueño a futuro</b>: Cumplir nuestras metas, el poder a llegar decir si en otro contexto, verte triunfar y tambien apoyarte dentro de cada sueño quqe tengas, siempre hacerlo realidad .</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="playlist" class="card pad">
+      <h2>Una canción que describe lo que siento por ti</h2>
+      <p class="muted"> La melodia del amor. 
+        <a href="https://youtu.be/eTKeQhYVvbQ?si=4jUWdKGlehoX8wGU" target="_blank" rel="noopener">Abrir música</a>
+      </p>
+    </section>
+
+    <section id="aceptacion" class="grid cols-2">
+      <div class="card pad">
+        <h2>¿Me darías el honor de ser mi novio?</h2>
+        </p>
+        <div class="cta no-print">
+          <a class="btn primary" onclick="celebrar(); ensurePlay(true)"> Claro que si </a>
+          <a class="btn" onclick="celebrar(); ensurePlay(true)"> Por supuesto que si</a>
+        </div>
+        <p id="respuesta" style="margin-top:10px; display:none">🎉 Gracias por decir que sí. Este momento es solo el comienzo de algo hermoso.</p>
+      </div>
+      <div class="card pad">
+        <h2>Amor sin más...</h2>
+        <p>Gracias por dejarme conocerte y por hacerme sentir tan especial. Si dices que sí, prometo poner el corazón y cuidar lo que construyamos juntos.</p>
+      </div>
+    </section>
+
+    <footer>
+      <small>Con cariño, <span id="firma">[Tu Nombre]</span> — <span id="anio"></span></small>
+    </footer>
+  </div>
+
+  <button class="music-toggle no-print" id="music-btn" onclick="toggleMusic()" aria-label="Alternar música" title="Alternar música">
+    <span id="music-icon">▶︎</span> <small id="music-label">Reproducir música</small>
+  </button>
+  <div class="music-tip no-print" id="music-tip">Toca cualquier parte para activar la música 💙</div>
+
+  <script>
+    const CONFIG = {
+      from: "Tarzan pecoso",
+      to: "Mi fantasmin",
+      date: "22/06/2024"
+    }
+    document.getElementById('from').textContent = CONFIG.from;
+    document.getElementById('to').textContent = CONFIG.to;
+    document.getElementById('date').textContent = CONFIG.date;
+    document.getElementById('title').textContent = `${CONFIG.to}`;
+    document.getElementById('firma').textContent = CONFIG.from;
+    document.getElementById('anio').textContent = new Date().getFullYear();
+
+    const bgm = document.getElementById('bg-music');
+    const tip = document.getElementById('music-tip');
+    const icon = document.getElementById('music-icon');
+    const label = document.getElementById('music-label');
+
+    async function tryAutoplay(){
+      if(!bgm.src) return;
+      bgm.volume = 0.7;
+      try{
+        await bgm.play();
+        icon.textContent = '⏸';
+        label.textContent = 'Pausar música';
+        tip.style.display = 'none';
+      }catch(e){
+        tip.style.display = 'block';
+        window.addEventListener('pointerdown', ()=>ensurePlay(true), {once:true});
+      }
+    }
+
+    function ensurePlay(updateUI){
+      bgm.play().then(()=>{
+        tip.style.display='none';
+        if(updateUI){ icon.textContent='⏸'; label.textContent='Pausar música'; }
+      }).catch(()=>{});
+    }
+
+    function toggleMusic(){
+      if(bgm.paused){ bgm.play(); icon.textContent='⏸'; label.textContent='Pausar música'; tip.style.display='none'; }
+      else{ bgm.pause(); icon.textContent='▶︎'; label.textContent='Reproducir música'; }
+    }
+
+    document.addEventListener('DOMContentLoaded', tryAutoplay);
+
+    function celebrar(){
+      const p = document.getElementById('respuesta');
+      p.style.display = 'block';
+      lanzarCorazones();
+    }
+
+    function lanzarCorazones(){
+      for(let i=0;i<24;i++){
+        const s = document.createElement('div');
+        s.textContent = '💙';
+        s.style.position='fixed';
+        s.style.left = Math.random()*100+'vw';
+        s.style.top = '-10px';
+        s.style.fontSize = (16+Math.random()*24)+'px';
+        s.style.opacity = .9;
+        s.style.transition = 'transform 4s linear, opacity 4s linear';
+        document.body.appendChild(s);
+        const x = (Math.random()*2-1)*40;
+        requestAnimationFrame(()=>{ s.style.transform = `translate(${x}vw, 110vh)`; s.style.opacity = 0; });
+        setTimeout(()=> s.remove(), 4200);
+      }
+    }
+  </script>
+</body>
+</html>
